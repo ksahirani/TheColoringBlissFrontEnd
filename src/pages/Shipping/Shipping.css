@@ -1,0 +1,331 @@
+/* Shipping Page Styles */
+
+/* Hero */
+.shipping-hero {
+  background: linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%);
+  padding: var(--spacing-3xl) var(--spacing-lg);
+  text-align: center;
+}
+
+.shipping-hero__emoji {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: var(--spacing-md);
+}
+
+.shipping-hero h1 {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-md);
+}
+
+.shipping-hero p {
+  font-size: 1.125rem;
+  color: var(--color-gray-600);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Shipping Rates */
+.shipping-rates {
+  padding: var(--spacing-3xl) var(--spacing-lg);
+  background: white;
+}
+
+.rates-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.rate-card {
+  background: linear-gradient(135deg, #fef3e2 0%, #fce7f3 100%);
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-xl);
+  text-align: center;
+  transition: all var(--transition-medium);
+}
+
+.rate-card:hover {
+  transform: translateY(-5px);
+}
+
+.rate-card__emoji {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: var(--spacing-md);
+}
+
+.rate-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-sm);
+}
+
+.rate-card__price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #8b5cf6;
+  margin-bottom: var(--spacing-sm);
+}
+
+.rate-card__free {
+  font-size: 0.875rem;
+  color: #10b981;
+  font-weight: 600;
+  margin-bottom: var(--spacing-md);
+}
+
+.rate-card__delivery {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  font-size: 0.875rem;
+  color: var(--color-gray-600);
+  background: white;
+  padding: var(--spacing-xs) var(--spacing-md);
+  border-radius: 50px;
+}
+
+/* Process Steps */
+.shipping-process {
+  padding: var(--spacing-3xl) var(--spacing-lg);
+  background: #faf9f6;
+}
+
+.process-steps {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.process-step {
+  flex: 1;
+  min-width: 200px;
+  max-width: 250px;
+  text-align: center;
+  position: relative;
+}
+
+.process-step__number {
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  width: 28px;
+  height: 28px;
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+  color: white;
+  border-radius: 50%;
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.process-step__icon {
+  width: 80px;
+  height: 80px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin: 0 auto var(--spacing-md);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.process-step h3 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-xs);
+}
+
+.process-step p {
+  font-size: 0.875rem;
+  color: var(--color-gray-500);
+  line-height: 1.5;
+}
+
+.process-connector {
+  font-size: 1.5rem;
+  color: var(--color-gray-300);
+  padding-top: 30px;
+}
+
+/* Couriers */
+.shipping-couriers {
+  padding: var(--spacing-3xl) var(--spacing-lg);
+  background: white;
+}
+
+.couriers-grid {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-xl);
+  flex-wrap: wrap;
+}
+
+.courier-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-xl);
+  background: var(--color-gray-50);
+  border-radius: var(--radius-lg);
+  min-width: 150px;
+}
+
+.courier-logo {
+  font-size: 2.5rem;
+}
+
+.courier-name {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+/* Notes */
+.shipping-notes {
+  padding: var(--spacing-3xl) var(--spacing-lg);
+  background: #faf9f6;
+}
+
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-xl);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.note-card {
+  background: white;
+  padding: var(--spacing-xl);
+  border-radius: var(--radius-xl);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.note-card__icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.note-card--info .note-card__icon {
+  background: #d1fae5;
+  color: #10b981;
+}
+
+.note-card--warning .note-card__icon {
+  background: #fef3c7;
+  color: #f59e0b;
+}
+
+.note-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  color: var(--color-ink);
+  margin-bottom: var(--spacing-md);
+}
+
+.note-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.note-card li {
+  padding: var(--spacing-xs) 0;
+  padding-left: var(--spacing-lg);
+  position: relative;
+  color: var(--color-gray-600);
+  font-size: 0.9375rem;
+}
+
+.note-card li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #10b981;
+}
+
+.note-card--warning li::before {
+  content: '!';
+  color: #f59e0b;
+}
+
+/* CTA */
+.shipping-cta {
+  padding: var(--spacing-3xl) var(--spacing-lg);
+  background: linear-gradient(135deg, #8b5cf6, #ec4899);
+}
+
+.shipping-cta__content {
+  text-align: center;
+  color: white;
+}
+
+.shipping-cta__content h2 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  margin-bottom: var(--spacing-sm);
+}
+
+.shipping-cta__content p {
+  opacity: 0.9;
+  margin-bottom: var(--spacing-xl);
+}
+
+.shipping-cta__buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .rates-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .process-connector {
+    display: none;
+  }
+
+  .process-steps {
+    gap: var(--spacing-xl);
+  }
+}
+
+@media (max-width: 768px) {
+  .shipping-hero h1 {
+    font-size: 2rem;
+  }
+
+  .notes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .shipping-cta__buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .rates-grid {
+    grid-template-columns: 1fr;
+  }
+}
