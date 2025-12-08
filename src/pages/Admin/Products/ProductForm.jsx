@@ -505,9 +505,31 @@ const ProductForm = () => {
                   required
                 >
                   <option value="">Select category</option>
-                  {categories.map(cat => (
-                    <option key={cat._id} value={cat._id}>{cat.name}</option>
-                  ))}
+                  {categories
+                    .filter(cat => !cat.parent) // Only parent categories
+                    .map(parentCat => (
+                      <optgroup key={parentCat._id} label={parentCat.name}>
+                        {/* Show parent as selectable option */}
+                        <option value={parentCat._id}>{parentCat.name} (General)</option>
+                        {/* Show subcategories */}
+                        {categories
+                          .filter(sub => sub.parent === parentCat._id || sub.parent?._id === parentCat._id)
+                          .map(subCat => (
+                            <option key={subCat._id} value={subCat._id}>
+                              {subCat.name}
+                            </option>
+                          ))
+                        }
+                      </optgroup>
+                    ))
+                  }
+                  {/* Show categories without parent (legacy/uncategorized) */}
+                  {categories
+                    .filter(cat => !cat.parent && !categories.some(sub => sub.parent === cat._id || sub.parent?._id === cat._id))
+                    .map(cat => (
+                      <option key={cat._id} value={cat._id}>{cat.name}</option>
+                    ))
+                  }
                 </select>
               </div>
             </div>
