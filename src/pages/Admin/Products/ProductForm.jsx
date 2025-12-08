@@ -16,6 +16,7 @@ const ProductForm = () => {
   const [uploading, setUploading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [images, setImages] = useState([]);
+  const [selectedMainCategory, setSelectedMainCategory] = useState('');
   
   const [formData, setFormData] = useState({
     name: '',
@@ -54,6 +55,15 @@ const ProductForm = () => {
     tags: ''
   });
 
+  // Get parent categories (no parent field)
+  const parentCategories = categories.filter(cat => !cat.parent);
+  
+  // Get subcategories based on selected main category
+  const subcategories = categories.filter(cat => {
+    if (!selectedMainCategory) return false;
+    return cat.parent === selectedMainCategory || cat.parent?._id === selectedMainCategory;
+  });
+
   useEffect(() => {
     fetchCategories();
     if (isEditMode) {
@@ -82,6 +92,14 @@ const ProductForm = () => {
           url: img.url,
           isExisting: true
         })));
+      }
+
+      // Set the main category (parent) if product has a category with parent
+      if (product.category?.parent) {
+        setSelectedMainCategory(product.category.parent._id || product.category.parent);
+      } else if (product.category) {
+        // If category has no parent, it IS the main category
+        setSelectedMainCategory(product.category._id);
       }
       
       setFormData({
@@ -483,16 +501,19 @@ const ProductForm = () => {
               <div className="admin-form-group">
                 <label>Product Type *</label>
                 <select
-                  name="productType"
-                  value={formData.productType}
-                  onChange={handleChange}
+                  name="mainCategory"
+                  value={selectedMainCategory}
+                  onChange={(e) => {
+                    setSelectedMainCategory(e.target.value);
+                    // Clear subcategory when main category changes
+                    setFormData(prev => ({ ...prev, category: '' }));
+                  }}
                   required
                 >
-                  <option value="notebook">Notebook</option>
-                  <option value="notepad">Notepad</option>
-                  <option value="journal">Journal</option>
-                  <option value="sketchbook">Sketchbook</option>
-                  <option value="planner">Planner</option>
+                  <option value="">Select product type</option>
+                  {parentCategories.map(cat => (
+                    <option key={cat._id} value={cat._id}>{cat.name}</option>
+                  ))}
                 </select>
               </div>
 
@@ -503,33 +524,20 @@ const ProductForm = () => {
                   value={formData.category}
                   onChange={handleChange}
                   required
+                  disabled={!selectedMainCategory}
                 >
-                  <option value="">Select category</option>
-                  {categories
-                    .filter(cat => !cat.parent) // Only parent categories
-                    .map(parentCat => (
-                      <optgroup key={parentCat._id} label={parentCat.name}>
-                        {/* Show parent as selectable option */}
-                        <option value={parentCat._id}>{parentCat.name} (General)</option>
-                        {/* Show subcategories */}
-                        {categories
-                          .filter(sub => sub.parent === parentCat._id || sub.parent?._id === parentCat._id)
-                          .map(subCat => (
-                            <option key={subCat._id} value={subCat._id}>
-                              {subCat.name}
-                            </option>
-                          ))
-                        }
-                      </optgroup>
-                    ))
-                  }
-                  {/* Show categories without parent (legacy/uncategorized) */}
-                  {categories
-                    .filter(cat => !cat.parent && !categories.some(sub => sub.parent === cat._id || sub.parent?._id === cat._id))
-                    .map(cat => (
-                      <option key={cat._id} value={cat._id}>{cat.name}</option>
-                    ))
-                  }
+                  <option value="">
+                    {selectedMainCategory ? 'Select category' : 'Select product type first'}
+                  </option>
+                  {subcategories.map(cat => (
+                    <option key={cat._id} value={cat._id}>{cat.name}</option>
+                  ))}
+                  {/* If no subcategories, show main category as option */}
+                  {selectedMainCategory && subcategories.length === 0 && (
+                    <option value={selectedMainCategory}>
+                      {parentCategories.find(c => c._id === selectedMainCategory)?.name} (General)
+                    </option>
+                  )}
                 </select>
               </div>
             </div>
