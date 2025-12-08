@@ -55,13 +55,18 @@ const ProductForm = () => {
     tags: ''
   });
 
-  // Get parent categories (no parent field)
-  const parentCategories = categories.filter(cat => !cat.parent);
+  // Get parent categories (categories without a parent - null, undefined, or empty)
+  const parentCategories = categories.filter(cat => {
+    // No parent field, or parent is null/undefined/empty string
+    return !cat.parent || cat.parent === null || cat.parent === '';
+  });
   
   // Get subcategories based on selected main category
   const subcategories = categories.filter(cat => {
     if (!selectedMainCategory) return false;
-    return cat.parent === selectedMainCategory || cat.parent?._id === selectedMainCategory;
+    // Check if parent matches (could be string ID or object with _id)
+    const parentId = cat.parent?._id || cat.parent;
+    return parentId === selectedMainCategory;
   });
 
   useEffect(() => {
@@ -74,7 +79,10 @@ const ProductForm = () => {
   const fetchCategories = async () => {
     try {
       const response = await api.get('/categories');
-      setCategories(response.data.data.categories);
+      const allCategories = response.data.data.categories;
+      console.log('All categories:', allCategories);
+      console.log('Parent categories:', allCategories.filter(cat => !cat.parent || cat.parent === null || cat.parent === ''));
+      setCategories(allCategories);
     } catch (error) {
       console.error('Failed to fetch categories:', error);
     }
