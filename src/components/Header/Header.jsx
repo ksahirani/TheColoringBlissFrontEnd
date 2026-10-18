@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Search, ShoppingCart, User, Heart, Menu, X, ChevronDown, LogOut, Package, MapPin, Settings } from 'lucide-react';
 import { logout } from '../../store/slices/authSlice';
 import Logo from '../../assets/Coloring_Bliss.png';
+import useDebounce from '../../utils/useDebounce';
 import './Header.css';
 
 const Header = () => {
@@ -17,6 +18,8 @@ const Header = () => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchSuggestions, setSearchSuggestions] = useState([]);
+  const debouncedSearch = useDebounce(searchQuery, 500);
   
   const userMenuRef = useRef(null);
   const searchRef = useRef(null);
@@ -27,7 +30,6 @@ const Header = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -41,10 +43,22 @@ const Header = () => {
         setSearchOpen(false);
       }
     };
-    
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    if (debouncedSearch.trim().length > 1) {
+      const suggestions = [
+        `${debouncedSearch} notebook`,
+        `${debouncedSearch} planner`,
+        `${debouncedSearch} notepad`,
+      ].filter(s => s.toLowerCase().includes(debouncedSearch.toLowerCase()));
+      setSearchSuggestions(suggestions);
+    } else {
+      setSearchSuggestions([]);
+    }
+  }, [debouncedSearch]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -52,6 +66,7 @@ const Header = () => {
       navigate(`/shop?search=${encodeURIComponent(searchQuery.trim())}`);
       setSearchQuery('');
       setSearchOpen(false);
+      setSearchSuggestions([]);
     }
   };
 
@@ -133,6 +148,25 @@ const Header = () => {
                         <Search size={18} />
                       </button>
                     </form>
+                    {searchSuggestions.length > 0 && (
+                      <ul className="search-suggestions">
+                        {searchSuggestions.map((suggestion, index) => (
+                          <li
+                            key={index}
+                            className="search-suggestion-item"
+                            onClick={() => {
+                              navigate(`/shop?search=${encodeURIComponent(suggestion)}`);
+                              setSearchQuery('');
+                              setSearchOpen(false);
+                              setSearchSuggestions([]);
+                            }}
+                          >
+                            <Search size={14} />
+                            {suggestion}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 )}
               </div>
